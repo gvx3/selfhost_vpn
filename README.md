@@ -21,6 +21,17 @@ key_file=<path to your private keyfile>
 
 - Configure terraform backend of your choice at `/infra/terraform.tf`. Personally I use HCP Terraform to save the state.
 - Create `.env` file at `/conf/roles/application/tasks` as a place to store environment variables.
+- Create `terraform.tfvars` file at `/infra` and fill your info as below. These variables are sensitive information and necessary to configure `oci` provider. If HCP Terraform is used, we can create and set the value of these variables there.
+
+```text
+tenancy_ocid = "ocid1.tenancy.oc1..aabbxx"
+user_ocid    = "ocid1.user.oc1..aabbxx"
+fingerprint  = "aa:aa:xx:xx:xx"
+private_key = "privatekeycontent"
+region = "eu-frankfurt-1"
+
+compartment_id = "ocid1.tenancy.oc1..aabbxx"
+```
 
 > [!TIP]
 > It is recommended that you upgrade the Oracle Cloud account to Pay-as-you-go so
