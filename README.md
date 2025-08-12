@@ -22,7 +22,9 @@ key_file=<path to your private keyfile>
 - Configure terraform backend of your choice at `/infra/terraform.tf`. Personally I use HCP Terraform to save the state.
 - Create `.env` file at `/conf/roles/application/tasks` as a place to store environment variables.
 
-
+> [!TIP]
+> It is recommended that you upgrade the Oracle Cloud account to Pay-as-you-go so
+> you'd have no trouble/constraint when create "A1 Flex" VM type, and it should remain free as long as you configure the resources following the always free tier policies.
 
 ## Usage
 
