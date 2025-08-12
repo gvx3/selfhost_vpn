@@ -1,0 +1,23 @@
+- hosts: localhost
+  vars:
+    infra_dir: "../infra"
+  tasks:
+    - name: IP Instance Output
+      community.general.terraform:
+        project_path: "{{ infra_dir }}"
+        state: present
+        workspace: "minhvu"
+      register: tf_output
+    - name: Add the VM to inventory
+      ansible.builtin.add_host:
+        hostname: cloud_vpn
+        ansible_host: "{{ tf_output.outputs.instance_public_ip.value }}"
+      changed_when: False
+
+- hosts: all
+  become: true
+  roles:
+    - role: common
+    - role: application
+  
+  

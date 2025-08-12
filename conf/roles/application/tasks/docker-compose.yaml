@@ -1,0 +1,24 @@
+services:
+  wireguard:
+    container_name: wireguard
+    image: linuxserver/wireguard:arm64v8-latest
+    restart: unless-stopped
+    volumes:
+      - /lib/modules:/lib/modules
+      - /etc/wireguard:/config
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark: 1
+    ports:
+      - "51820:51820/udp"
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - PEERS=${PEERS}
+      # - SERVERURL=${SERVERURL} #If you have a domain
+      - PEERDNS=auto
+      - INTERNAL_SUBNET=10.13.13.0
+      - ALLOWEDIPS=0.0.0.0/0
+      - LOG_CONFS=true

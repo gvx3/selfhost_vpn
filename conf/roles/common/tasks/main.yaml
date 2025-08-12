@@ -1,0 +1,40 @@
+- name: Add GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  register: gpg_key
+  changed_when: gpg_key.changed
+
+- name: Install dependencies
+  become: true
+  apt:
+    state: present
+    update_cache: yes
+    pkg:
+    - ca-certificates
+    - curl
+    - apt-transport-https
+
+#noble for Ubuntu 24.04
+- name: Add Docker repository to apt
+  apt_repository: 
+    repo: deb https://download.docker.com/linux/ubuntu noble stable  
+    state: present
+
+- name: Install Docker
+  become: true
+  apt:
+    state: latest
+    update_cache: yes
+    pkg:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-compose-plugin
+
+- name: Enable and check Docker
+  become: true
+  service:
+    name: docker
+    state: started
+    enabled: yes

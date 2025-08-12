@@ -1,0 +1,24 @@
+- name: Create directory for compose files
+  ansible.builtin.file:
+    path: /opt/vpn
+    state: directory
+    mode: '0755'
+
+- name: Copy .env file
+  ansible.builtin.copy:
+    src: ./.env
+    dest: /opt/vpn/.env
+    mode: '0600'
+    remote_src: false
+
+- name: Copy docker-compose.yaml
+  ansible.builtin.copy:
+    src: docker-compose.yaml
+    dest: /opt/vpn/docker-compose.yaml
+    mode: '0644'
+
+- name: Deploy services
+  community.docker.docker_compose_v2:
+    project_src: /opt/vpn
+    env_files: /opt/vpn/.env
+    state: present
